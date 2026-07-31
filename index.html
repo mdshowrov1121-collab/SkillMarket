@@ -205,3 +205,28 @@ margin-top:40px;
   cursor: pointer;
 }
 <button class="btn" onclick="openAuthModal()">Join Now</button>
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+    <h3>SkillMarket Login / Signup</h3>
+
+    <div style="display: flex; margin: 15px 0;">
+      <button onclick="switchTab('login')" id="loginTabBtn" style="flex:1; padding:10px; background:#2563eb; color:white; border:none;">Login</button>
+      <button onclick="switchTab('signup')" id="signupTabBtn" style="flex:1; padding:10px; background:#e5e7eb; color:black; border:none;">Sign Up</button>
+    </div>
+
+    <div id="login-form">
+      <input type="email" id="login-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0;"><br>
+      <input type="password" id="login-password" placeholder="Password" style="width:100%; padding:10px; margin:5px 0;"><br>
+      <button onclick="loginUser()" style="width:100%; padding:10px; background:#2563eb; color:white; border:none; margin-top:10px;">Login</button>
+    </div>
+
+    <div id="signup-form" style="display: none;">
+      <input type="email" id="signup-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0;"><br>
+      <input type="password" id="signup-password" placeholder="Password (min 6 chars)" style="width:100%; padding:10px; margin:5px 0;"><br>
+      <button onclick="registerUser()" style="width:100%; padding:10px; background:#22c55e; color:white; border:none; margin-top:10px;">Register</button>
+    </div>
+
+    <p id="auth-status" style="margin-top: 15px; font-weight: bold;"></p>
+  </div>
+</div>
