@@ -7,48 +7,64 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col justify-between">
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between font-sans">
 
-    <div>
-        <!-- Navbar -->
-        <nav class="bg-white shadow p-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-blue-600">SkillMarket</h1>
-            <div id="auth-status" class="flex gap-2">
-                <button onclick="showLogin()" class="bg-blue-500 text-white px-4 py-2 rounded text-sm">Login</button>
-            </div>
-        </nav>
+    <!-- Navbar -->
+    <nav class="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold italic tracking-wide">SkillMarket</h1>
+        <button onclick="openModal()" class="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition">Join Now</button>
+    </nav>
 
-        <div class="container mx-auto p-4 max-w-2xl">
-            <!-- Search Section -->
-            <div class="flex gap-2 mb-8 mt-4">
-                <input type="text" id="searchInput" placeholder="Search services..." class="flex-1 border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" onkeyup="handleSearch()">
-                <button onclick="handleSearch()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium">Search</button>
-            </div>
+    <div class="container mx-auto p-4 max-w-xl flex-1">
+        <!-- Search Section (Works before login) -->
+        <div class="flex gap-2 mb-6 mt-6">
+            <input type="text" id="searchInput" placeholder="Search services..." class="flex-1 border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white shadow-sm" onkeyup="handleSearch()">
+            <button onclick="handleSearch()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium shadow-sm transition">Search</button>
+        </div>
 
-            <div id="authOrContent">
-                <!-- Popular Services Section -->
-                <div id="mainContent">
-                    <h2 class="text-2xl font-serif text-center mb-6 italic">Popular Services</h2>
-                    
-                    <div id="servicesList" class="grid gap-4">
-                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 text-center">
-                            <h3 class="text-lg font-serif italic font-bold">Graphic Design</h3>
-                            <p class="text-gray-600 text-sm italic mt-1">Logos, banners and thumbnails.</p>
-                        </div>
-                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 text-center">
-                            <h3 class="text-lg font-serif italic font-bold">Video Editing</h3>
-                            <p class="text-gray-600 text-sm italic mt-1">Professional editing services.</p>
-                        </div>
-                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 text-center">
-                            <h3 class="text-lg font-serif italic font-bold">Web Development</h3>
-                            <p class="text-gray-600 text-sm italic mt-1">Modern website creation.</p>
-                        </div>
-                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 text-center">
-                            <h3 class="text-lg font-serif italic font-bold">Digital Marketing</h3>
-                            <p class="text-gray-600 text-sm italic mt-1">Grow your business online.</p>
-                        </div>
-                    </div>
+        <!-- Popular Services -->
+        <div id="mainContent">
+            <h2 class="text-2xl font-serif text-center mb-6 italic text-gray-800">Popular Services</h2>
+            
+            <div id="servicesList" class="grid gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Graphic Design</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Logos, banners and thumbnails.</p>
                 </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Video Editing</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Professional editing services.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Web Development</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Modern website creation.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Digital Marketing</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Grow your business online.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+            <h2 class="text-xl font-serif italic font-bold mb-4 text-gray-800">SkillMarket Account</h2>
+            
+            <!-- Tabs -->
+            <div class="flex rounded-xl bg-gray-100 p-1 mb-4">
+                <button id="loginTabBtn" onclick="switchTab('login')" class="flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600">Login</button>
+                <button id="signupTabBtn" onclick="switchTab('signup')" class="flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm">Sign Up</button>
+            </div>
+
+            <!-- Form -->
+            <div>
+                <input type="email" id="userEmail" placeholder="Email" class="w-full border border-gray-300 p-3 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <input type="password" id="userPassword" placeholder="Password" class="w-full border border-gray-300 p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <button id="authActionBtn" onclick="handleAuth()" class="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-medium shadow-sm transition">Register</button>
+                <p id="errorMsg" class="text-red-500 text-xs mt-3 text-center"></p>
             </div>
         </div>
     </div>
@@ -61,9 +77,8 @@
     <!-- Firebase & App Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/auth.js";
 
-        // New Firebase Configuration
         const firebaseConfig = {
           apiKey: "AIzaSyCizL6Mk-KRBCEWN-P4N_yLH-lE9AbuUM",
           authDomain: "skillmarketnew.firebaseapp.com",
@@ -76,6 +91,62 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+
+        let currentMode = 'signup';
+
+        window.openModal = function() {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        window.closeModal = function() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('errorMsg').innerText = '';
+        }
+
+        window.switchTab = function(mode) {
+            currentMode = mode;
+            const loginBtn = document.getElementById('loginTabBtn');
+            const signupBtn = document.getElementById('signupTabBtn');
+            const actionBtn = document.getElementById('authActionBtn');
+
+            if(mode === 'login') {
+                loginBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm";
+                signupBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600";
+                actionBtn.innerText = "Login";
+            } else {
+                signupBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm";
+                loginBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600";
+                actionBtn.innerText = "Register";
+            }
+            document.getElementById('errorMsg').innerText = '';
+        }
+
+        window.handleAuth = function() {
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            const errorBox = document.getElementById('errorMsg');
+            errorBox.innerText = '';
+
+            if(currentMode === 'login') {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        alert("Login successful!");
+                        closeModal();
+                    })
+                    .catch((error) => {
+                        errorBox.innerText = "Error: " + error.message;
+                    });
+            } else {
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        alert("Registration successful!");
+                        closeModal();
+                    })
+                    .catch((error) => {
+                        errorBox.innerText = "Error: " + error.message;
+                    });
+            }
+        }
 
         const services = [
             { title: "Graphic Design", desc: "Logos, banners and thumbnails." },
@@ -98,84 +169,13 @@
 
             filtered.forEach(service => {
                 const div = document.createElement('div');
-                div.className = 'bg-white p-5 rounded-xl shadow-sm border border-gray-100 text-center';
+                div.className = 'bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center';
                 div.innerHTML = `
-                    <h3 class="text-lg font-serif italic font-bold">${service.title}</h3>
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">${service.title}</h3>
                     <p class="text-gray-600 text-sm italic mt-1">${service.desc}</p>
                 `;
                 listContainer.appendChild(div);
             });
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            const authStatus = document.getElementById('auth-status');
-            if (user) {
-                authStatus.innerHTML = `<span class="text-gray-700 font-medium text-sm self-center">Hello, ${user.email}</span> <button onclick="handleLogout()" class="bg-red-500 text-white px-3 py-1.5 rounded text-sm">Logout</button>`;
-            } else {
-                authStatus.innerHTML = `<button onclick="showLogin()" class="bg-blue-500 text-white px-4 py-2 rounded text-sm">Login</button>`;
-            }
-        });
-
-        window.handleLogout = function() {
-            signOut(auth).then(() => {
-                alert("Logged out successfully!");
-            });
-        };
-
-        window.showLogin = function() {
-            document.getElementById('authOrContent').innerHTML = `
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <h2 class="text-xl font-bold mb-4">Login to SkillMarket</h2>
-                    <input type="email" id="loginEmail" placeholder="Email" class="w-full border p-2.5 mb-3 rounded-lg"><br>
-                    <input type="password" id="loginPassword" placeholder="Password" class="w-full border p-2.5 mb-3 rounded-lg"><br>
-                    <button onclick="loginUser()" class="bg-blue-500 text-white px-4 py-2.5 rounded-lg w-full mb-3">Login</button>
-                    <button onclick="resetToHome()" class="text-gray-600 text-sm underline w-full text-center block mb-2">Back to Home</button>
-                    <button onclick="showRegister()" class="text-blue-500 text-sm underline w-full text-center block">Don't have an account? Register</button>
-                </div>
-            `;
-        };
-
-        window.showRegister = function() {
-            document.getElementById('authOrContent').innerHTML = `
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <h2 class="text-xl font-bold mb-4">Register for SkillMarket</h2>
-                    <input type="email" id="regEmail" placeholder="Email" class="w-full border p-2.5 mb-3 rounded-lg"><br>
-                    <input type="password" id="regPassword" placeholder="Password" class="w-full border p-2.5 mb-3 rounded-lg"><br>
-                    <button onclick="registerUser()" class="bg-emerald-500 text-white px-4 py-2.5 rounded-lg w-full mb-3">Register</button>
-                    <button onclick="resetToHome()" class="text-gray-600 text-sm underline w-full text-center block mb-2">Back to Home</button>
-                    <button onclick="showLogin()" class="text-blue-500 text-sm underline w-full text-center block">Already have an account? Login</button>
-                </div>
-            `;
-        };
-
-        window.resetToHome = function() {
-            location.reload();
-        };
-
-        window.loginUser = function() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    alert("Login successful!");
-                    resetToHome();
-                })
-                .catch((error) => {
-                    alert("Error: " + error.message);
-                });
-        };
-
-        window.registerUser = function() {
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    alert("Registration successful!");
-                    resetToHome();
-                })
-                .catch((error) => {
-                    alert("Error: " + error.message);
-                });
         };
     </script>
 </body>
