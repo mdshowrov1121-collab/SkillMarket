@@ -162,3 +162,20 @@ margin-top:40px;
 
 </body>
 </html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAd2qF5oHLFAQCKLGw-Qmpr_6UhDl87NBc",
+    authDomain: "skillmarket-63c62.firebaseapp.com",
+    projectId: "skillmarket-63c62",
+    storageBucket: "skillmarket-63c62.firebasestorage.app",
+    messagingSenderId: "593629333389",
+    appId: "1:593629333389:web:4b8971d4754026fe415fc4",
+    measurementId: "G-YK8MZ57NRB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
