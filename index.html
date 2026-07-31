@@ -1,307 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkillMarket</title>
-
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f5f5f5;
-}
-
-header{
-background:#0f172a;
-color:white;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
-font-size:24px;
-font-weight:bold;
-}
-
-.btn{
-background:#22c55e;
-padding:10px 20px;
-border-radius:8px;
-text-decoration:none;
-color:white;
-font-weight:bold;
-}
-
-.hero{
-text-align:center;
-padding:80px 20px;
-background:white;
-}
-
-.hero h1{
-font-size:40px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:18px;
-color:#555;
-margin-bottom:25px;
-}
-
-.search{
-max-width:500px;
-margin:auto;
-display:flex;
-}
-
-.search input{
-flex:1;
-padding:15px;
-border:1px solid #ddd;
-border-radius:8px 0 0 8px;
-}
-
-.search button{
-padding:15px 25px;
-border:none;
-background:#22c55e;
-color:white;
-border-radius:0 8px 8px 0;
-}
-
-.services{
-padding:40px 20px;
-}
-
-.services h2{
-text-align:center;
-margin-bottom:25px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
-text-align:center;
-}
-
-footer{
-background:#0f172a;
-color:white;
-text-align:center;
-padding:20px;
-margin-top:40px;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillMarket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+    }
+    header {
+      background-color: #1e1b4b; /* Deep Dark Indigo */
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #a78bfa;
+    }
+    .btn {
+      background-color: #7c3aed; /* Vibrant Purple */
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background-color: #6d28d9;
+    }
+    .hero {
+      text-align: center;
+      padding: 50px 20px;
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: white;
+    }
+    .hero h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      color: #c7d2fe;
+    }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+    }
+    .search-box input {
+      width: 60%;
+      max-width: 400px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px 0 0 6px;
+      outline: none;
+    }
+    .search-box button {
+      padding: 12px 20px;
+      background-color: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .services {
+      padding: 30px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border-left: 4px solid #7c3aed;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1000; 
+      left: 0; 
+      top: 0; 
+      width: 100%; 
+      height: 100%; 
+      background-color: rgba(0,0,0,0.6); 
+    }
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 25px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+    .close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close-btn:hover { color: black; }
+  </style>
 </head>
-
 <body>
 
-<header>
-<div class="logo">SkillMarket</div>
-<a href="#" class="btn">Join Now</a>
-</header>
+  <!-- Header -->
+  <header>
+    <div class="logo">SkillMarket</div>
+    <button class="btn" onclick="openAuthModal()">Join Now</button>
+  </header>
 
-<section class="hero">
-<h1>Find The Perfect Freelancer</h1>
-<p>Hire skilled professionals or offer your services.</p>
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Find The Perfect Freelancer</h1>
+    <p>Hire skilled professionals or offer your services.</p>
+    <div class="search-box">
+      <input type="text" placeholder="Search services...">
+      <button>Search</button>
+    </div>
+  </div>
 
-<div class="search">
-<input type="text" placeholder="Search services...">
-<button>Search</button>
-</div>
-</section>
+  <!-- Popular Services -->
+  <div class="services">
+    <h2>Popular Services</h2>
+    <div class="service-card">
+      <h3>Graphic Design</h3>
+      <p>Logos, banners and thumbnails.</p>
+    </div>
+    <div class="service-card">
+      <h3>Video Editing</h3>
+      <p>Professional editing services.</p>
+    </div>
+    <div class="service-card">
+      <h3>Web Development</h3>
+      <p>Modern website creation.</p>
+    </div>
+    <div class="service-card">
+      <h3>Digital Marketing</h3>
+      <p>Grow your business online.</p>
+    </div>
+  </div>
 
-<section class="services">
-<h2>Popular Services</h2>
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+      <h3 style="margin-top:0; color:#1e1b4b;">SkillMarket Account</h3>
+      
+      <div style="display: flex; margin: 15px 0;">
+        <button onclick="switchTab('login')" id="loginTabBtn" style="flex:1; padding:10px; background:#7c3aed; color:white; border:none; cursor:pointer; border-radius: 4px 0 0 4px;">Login</button>
+        <button onclick="switchTab('signup')" id="signupTabBtn" style="flex:1; padding:10px; background:#e5e7eb; color:black; border:none; cursor:pointer; border-radius: 0 4px 4px 0;">Sign Up</button>
+      </div>
 
-<div class="cards">
+      <!-- Login Form -->
+      <div id="login-form">
+        <input type="email" id="login-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0; box-sizing:border-box; border:1px solid #ccc; border-radius:4px;"><br>
+        <input type="password" id="login-password" placeholder="Password" style="width:100%; padding:10px; margin:5px 0; box-sizing:border-box; border:1px solid #ccc; border-radius:4px;"><br>
+        <button onclick="loginUser()" style="width:100%; padding:10px; background:#7c3aed; color:white; border:none; border-radius:4px; margin-top:10px; cursor:pointer; font-weight:bold;">Login</button>
+      </div>
 
-<div class="card">
-<h3>Graphic Design</h3>
-<p>Logos, banners and thumbnails.</p>
-</div>
+      <!-- Signup Form -->
+      <div id="signup-form" style="display: none;">
+        <input type="email" id="signup-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0; box-sizing:border-box; border:1px solid #ccc; border-radius:4px;"><br>
+        <input type="password" id="signup-password" placeholder="Password (min 6 chars)" style="width:100%; padding:10px; margin:5px 0; box-sizing:border-box; border:1px solid #ccc; border-radius:4px;"><br>
+        <button onclick="registerUser()" style="width:100%; padding:10px; background:#7c3aed; color:white; border:none; border-radius:4px; margin-top:10px; cursor:pointer; font-weight:bold;">Register</button>
+      </div>
 
-<div class="card">
-<h3>Video Editing</h3>
-<p>Professional editing services.</p>
-</div>
+      <p id="auth-status" style="margin-top: 15px; font-weight: bold; font-size: 14px; text-align: center;"></p>
+    </div>
+  </div>
 
-<div class="card">
-<h3>Web Development</h3>
-<p>Modern website creation.</p>
-</div>
+  <!-- Firebase & Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-<div class="card">
-<h3>Digital Marketing</h3>
-<p>Grow your business online.</p>
-</div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAd2qF5oHLFAQCKLGw-Qmpr_6UhDl87NBc",
+      authDomain: "skillmarket-63c62.firebaseapp.com",
+      projectId: "skillmarket-63c62",
+      storageBucket: "skillmarket-63c62.firebasestorage.app",
+      messagingSenderId: "593629333389",
+      appId: "1:593629333389:web:4b8971d4754026fe415fc4",
+      measurementId: "G-YK8MZ57NRB"
+    };
 
-</div>
-</section>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-<footer>
-© 2026 SkillMarket - All Rights Reserved
-</footer>
+    window.openAuthModal = function() {
+      document.getElementById('authModal').style.display = 'block';
+    }
+    window.closeAuthModal = function() {
+      document.getElementById('authModal').style.display = 'none';
+    }
 
+    window.switchTab = function(tab) {
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+      const loginBtn = document.getElementById('loginTabBtn');
+      const signupBtn = document.getElementById('signupTabBtn');
+
+      if(tab === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        loginBtn.style.background = '#7c3aed';
+        loginBtn.style.color = 'white';
+        signupBtn.style.background = '#e5e7eb';
+        signupBtn.style.color = 'black';
+      } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        signupBtn.style.background = '#7c3aed';
+        signupBtn.style.color = 'white';
+        loginBtn.style.background = '#e5e7eb';
+        loginBtn.style.color = 'black';
+      }
+    }
+
+    window.registerUser = function() {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const status = document.getElementById('auth-status');
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          status.style.color = "green";
+          status.innerText = "Registration successful!";
+          setTimeout(() => closeAuthModal(), 2000);
+        })
+        .catch((error) => {
+          status.style.color = "red";
+          status.innerText = "Error: " + error.message;
+        });
+    };
+
+    window.loginUser = function() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const status = document.getElementById('auth-status');
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          status.style.color = "green";
+          status.innerText = "Login successful!";
+          setTimeout(() => closeAuthModal(), 2000);
+        })
+        .catch((error) => {
+          status.style.color = "red";
+          status.innerText = "Error: " + error.message;
+        });
+    };
+  </script>
 </body>
 </html>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAd2qF5oHLFAQCKLGw-Qmpr_6UhDl87NBc",
-    authDomain: "skillmarket-63c62.firebaseapp.com",
-    projectId: "skillmarket-63c62",
-    storageBucket: "skillmarket-63c62.firebasestorage.app",
-    messagingSenderId: "593629333389",
-    appId: "1:593629333389:web:4b8971d4754026fe415fc4",
-    measurementId: "G-YK8MZ57NRB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-.modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
-  left: 0; 
-  top: 0; 
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0,0,0,0.5); 
-}
-.modal-content {
-  background-color: white;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-}
-.close-btn {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-<button class="btn" onclick="openAuthModal()">Join Now</button>
-<div id="authModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeAuthModal()">&times;</span>
-    <h3>SkillMarket Login / Signup</h3>
-
-    <div style="display: flex; margin: 15px 0;">
-      <button onclick="switchTab('login')" id="loginTabBtn" style="flex:1; padding:10px; background:#2563eb; color:white; border:none;">Login</button>
-      <button onclick="switchTab('signup')" id="signupTabBtn" style="flex:1; padding:10px; background:#e5e7eb; color:black; border:none;">Sign Up</button>
-    </div>
-
-    <div id="login-form">
-      <input type="email" id="login-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0;"><br>
-      <input type="password" id="login-password" placeholder="Password" style="width:100%; padding:10px; margin:5px 0;"><br>
-      <button onclick="loginUser()" style="width:100%; padding:10px; background:#2563eb; color:white; border:none; margin-top:10px;">Login</button>
-    </div>
-
-    <div id="signup-form" style="display: none;">
-      <input type="email" id="signup-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0;"><br>
-      <input type="password" id="signup-password" placeholder="Password (min 6 chars)" style="width:100%; padding:10px; margin:5px 0;"><br>
-      <button onclick="registerUser()" style="width:100%; padding:10px; background:#22c55e; color:white; border:none; margin-top:10px;">Register</button>
-    </div>
-
-    <p id="auth-status" style="margin-top: 15px; font-weight: bold;"></p>
-  </div>
-</div>
-<script type="module">
-  <style>
-  .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0; 
-    top: 0; 
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0,0,0,0.5); 
-  }
-  .modal-content {
-    background-color: white;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 400px;
-  }
-  .close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .close-btn:hover {
-    color: black;
-  }
-</style>
-
-
-      signupForm.style.display = 'block';
-      signupBtn.style.background = '#22c55e';
-      signupBtn.style.color = 'white';
-      loginBtn.style.background = '#e5e7eb';
-      loginBtn.style.color = 'black';
-    }
-  }
-
-  window.registerUser = function() {
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const status = document.getElementById('auth-status');
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        status.style.color = "green";
-        status.innerText = "Registration successful!";
-        setTimeout(() => closeAuthModal(), 2000);
-      })
-      .catch((error) => {
-        status.style.color = "red";
-        status.innerText = "Error: " + error.message;
-      });
-  };
-
-  window.loginUser = function() {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    const status = document.getElementById('auth-status');
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        status.style.color = "green";
-        status.innerText = "Login successful!";
-        setTimeout(() => closeAuthModal(), 2000);
-      })
-      .catch((error) => {
-        status.style.color = "red";
-        status.innerText = "Error: " + error.message;
-      });
-  };
-</script>
