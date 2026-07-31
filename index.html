@@ -12,14 +12,20 @@
     <!-- Navbar -->
     <nav class="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md">
         <h1 class="text-xl font-bold italic tracking-wide">SkillMarket</h1>
-        <button onclick="openModal()" class="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Join Now</button>
+        <div class="flex items-center gap-3">
+            <div id="userProfileDisplay" class="hidden flex items-center gap-2">
+                <img id="navProfileImg" src="" alt="Profile" class="w-9 h-9 rounded-full object-cover border-2 border-violet-500">
+                <button id="logoutBtn" class="text-xs bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg transition cursor-pointer">Logout</button>
+            </div>
+            <button id="joinBtn" class="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Join Now</button>
+        </div>
     </nav>
 
     <div class="container mx-auto p-4 max-w-xl flex-1">
-        <!-- Search Section (Works before login) -->
+        <!-- Search Section -->
         <div class="flex gap-2 mb-6 mt-6">
-            <input type="text" id="searchInput" placeholder="Search services..." class="flex-1 border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white shadow-sm" onkeyup="handleSearch()">
-            <button onclick="handleSearch()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium shadow-sm transition cursor-pointer">Search</button>
+            <input type="text" id="searchInput" placeholder="Search services..." class="flex-1 border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white shadow-sm">
+            <button id="searchBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium shadow-sm transition cursor-pointer">Search</button>
         </div>
 
         <!-- Popular Services -->
@@ -50,20 +56,28 @@
     <!-- Auth Modal -->
     <div id="authModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold cursor-pointer">&times;</button>
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold cursor-pointer">&times;</button>
             <h2 class="text-xl font-serif italic font-bold mb-4 text-gray-800">SkillMarket Account</h2>
             
             <!-- Tabs -->
             <div class="flex rounded-xl bg-gray-100 p-1 mb-4">
-                <button id="loginTabBtn" onclick="switchTab('login')" class="flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer">Login</button>
-                <button id="signupTabBtn" onclick="switchTab('signup')" class="flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer">Sign Up</button>
+                <button id="loginTabBtn" class="flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer">Login</button>
+                <button id="signupTabBtn" class="flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer">Sign Up</button>
             </div>
 
             <!-- Form -->
             <div>
+                <!-- Profile Picture Upload (Only for Signup) -->
+                <div id="profileUploadContainer" class="mb-3 flex flex-col items-center">
+                    <label class="w-full text-xs text-gray-500 mb-1 font-medium">Upload Profile Picture</label>
+                    <div class="flex items-center gap-3 w-full">
+                        <input type="file" id="profilePicInput" accept="image/*" class="w-full border border-gray-300 p-2 rounded-xl text-xs bg-gray-50 cursor-pointer">
+                    </div>
+                </div>
+
                 <input type="email" id="userEmail" placeholder="Email" class="w-full border border-gray-300 p-3 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-violet-500">
                 <input type="password" id="userPassword" placeholder="Password" class="w-full border border-gray-300 p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-violet-500">
-                <button id="authActionBtn" onclick="handleAuth()" class="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-medium shadow-sm transition cursor-pointer">Register</button>
+                <button id="authActionBtn" class="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-medium shadow-sm transition cursor-pointer">Register</button>
                 <p id="errorMsg" class="text-red-500 text-xs mt-3 text-center"></p>
             </div>
         </div>
@@ -77,7 +91,7 @@
     <!-- Firebase & App Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/auth.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyCizL6Mk-KRBCEWN-P4N_yLH-lE9AbuUM",
@@ -93,35 +107,60 @@
         const auth = getAuth(app);
 
         let currentMode = 'signup';
+        let uploadedPicData = '';
 
-        window.openModal = function() {
-            document.getElementById('authModal').classList.remove('hidden');
-        }
+        const authModal = document.getElementById('authModal');
+        const joinBtn = document.getElementById('joinBtn');
+        const userProfileDisplay = document.getElementById('userProfileDisplay');
+        const navProfileImg = document.getElementById('navProfileImg');
+        const profileUploadContainer = document.getElementById('profileUploadContainer');
 
-        window.closeModal = function() {
-            document.getElementById('authModal').classList.add('hidden');
+        joinBtn.addEventListener('click', () => {
+            authModal.classList.remove('hidden');
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            authModal.classList.add('hidden');
             document.getElementById('errorMsg').innerText = '';
-        }
+        });
 
-        window.switchTab = function(mode) {
-            currentMode = mode;
-            const loginBtn = document.getElementById('loginTabBtn');
-            const signupBtn = document.getElementById('signupTabBtn');
-            const actionBtn = document.getElementById('authActionBtn');
-
-            if(mode === 'login') {
-                loginBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer";
-                signupBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer";
-                actionBtn.innerText = "Login";
-            } else {
-                signupBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer";
-                loginBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer";
-                actionBtn.innerText = "Register";
+        // Profile Picture Handler
+        document.getElementById('profilePicInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    uploadedPicData = uploadEvent.target.result;
+                };
+                reader.readAsDataURL(file);
             }
-            document.getElementById('errorMsg').innerText = '';
-        }
+        });
 
-        window.handleAuth = function() {
+        // Tabs
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const signupTabBtn = document.getElementById('signupTabBtn');
+        const authActionBtn = document.getElementById('authActionBtn');
+
+        loginTabBtn.addEventListener('click', () => {
+            currentMode = 'login';
+            loginTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer";
+            signupTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer";
+            authActionBtn.innerText = "Login";
+            profileUploadContainer.style.display = 'none';
+            document.getElementById('errorMsg').innerText = '';
+        });
+
+        signupTabBtn.addEventListener('click', () => {
+            currentMode = 'signup';
+            signupTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer";
+            loginTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer";
+            authActionBtn.innerText = "Register";
+            profileUploadContainer.style.display = 'flex';
+            document.getElementById('errorMsg').innerText = '';
+        });
+
+        // Auth Action
+        authActionBtn.addEventListener('click', () => {
             const email = document.getElementById('userEmail').value;
             const password = document.getElementById('userPassword').value;
             const errorBox = document.getElementById('errorMsg');
@@ -136,7 +175,7 @@
                 signInWithEmailAndPassword(auth, email, password)
                     .then(() => {
                         alert("Login successful!");
-                        closeModal();
+                        authModal.classList.add('hidden');
                     })
                     .catch((error) => {
                         errorBox.innerText = "Error: " + error.message;
@@ -144,15 +183,42 @@
             } else {
                 createUserWithEmailAndPassword(auth, email, password)
                     .then(() => {
+                        if(uploadedPicData) {
+                            localStorage.setItem('profilePic_' + email, uploadedPicData);
+                        }
                         alert("Registration successful!");
-                        closeModal();
+                        authModal.classList.add('hidden');
                     })
                     .catch((error) => {
                         errorBox.innerText = "Error: " + error.message;
                     });
             }
-        }
+        });
 
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                joinBtn.classList.add('hidden');
+                userProfileDisplay.classList.remove('hidden');
+                const savedPic = localStorage.getItem('profilePic_' + user.email);
+                if(savedPic) {
+                    navProfileImg.src = savedPic;
+                } else {
+                    navProfileImg.src = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.ico";
+                }
+            } else {
+                joinBtn.classList.remove('hidden');
+                userProfileDisplay.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                alert("Logged out successfully!");
+            });
+        });
+
+        // Search Functionality
         const services = [
             { title: "Graphic Design", desc: "Logos, banners and thumbnails." },
             { title: "Video Editing", desc: "Professional editing services." },
@@ -160,7 +226,7 @@
             { title: "Digital Marketing", desc: "Grow your business online." }
         ];
 
-        window.handleSearch = function() {
+        function performSearch() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const listContainer = document.getElementById('servicesList');
             
@@ -181,7 +247,10 @@
                 `;
                 listContainer.appendChild(div);
             });
-        };
+        }
+
+        document.getElementById('searchBtn').addEventListener('click', performSearch);
+        document.getElementById('searchInput').addEventListener('keyup', performSearch);
     </script>
 </body>
 </html>
