@@ -231,48 +231,37 @@ margin-top:40px;
   </div>
 </div>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { 
-    getAuth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword 
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAd2qF5oHLFAQCKLGw-Qmpr_6UhDl87NBc",
-    authDomain: "skillmarket-63c62.firebaseapp.com",
-    projectId: "skillmarket-63c62",
-    storageBucket: "skillmarket-63c62.firebasestorage.app",
-    messagingSenderId: "593629333389",
-    appId: "1:593629333389:web:4b8971d4754026fe415fc4",
-    measurementId: "G-YK8MZ57NRB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  window.openAuthModal = function() {
-    document.getElementById('authModal').style.display = 'block';
+<style>
+  .modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.5); 
   }
-  window.closeAuthModal = function() {
-    document.getElementById('authModal').style.display = 'none';
+  .modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
   }
+  .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close-btn:hover {
+    color: black;
+  }
+</style>
 
-  window.switchTab = function(tab) {
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const loginBtn = document.getElementById('loginTabBtn');
-    const signupBtn = document.getElementById('signupTabBtn');
-
-    if(tab === 'login') {
-      loginForm.style.display = 'block';
-      signupForm.style.display = 'none';
-      loginBtn.style.background = '#2563eb';
-      loginBtn.style.color = 'white';
-      signupBtn.style.background = '#e5e7eb';
-      signupBtn.style.color = 'black';
-    } else {
-      loginForm.style.display = 'none';
       signupForm.style.display = 'block';
       signupBtn.style.background = '#22c55e';
       signupBtn.style.color = 'white';
