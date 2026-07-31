@@ -230,3 +230,88 @@ margin-top:40px;
     <p id="auth-status" style="margin-top: 15px; font-weight: bold;"></p>
   </div>
 </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAd2qF5oHLFAQCKLGw-Qmpr_6UhDl87NBc",
+    authDomain: "skillmarket-63c62.firebaseapp.com",
+    projectId: "skillmarket-63c62",
+    storageBucket: "skillmarket-63c62.firebasestorage.app",
+    messagingSenderId: "593629333389",
+    appId: "1:593629333389:web:4b8971d4754026fe415fc4",
+    measurementId: "G-YK8MZ57NRB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.openAuthModal = function() {
+    document.getElementById('authModal').style.display = 'block';
+  }
+  window.closeAuthModal = function() {
+    document.getElementById('authModal').style.display = 'none';
+  }
+
+  window.switchTab = function(tab) {
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const loginBtn = document.getElementById('loginTabBtn');
+    const signupBtn = document.getElementById('signupTabBtn');
+
+    if(tab === 'login') {
+      loginForm.style.display = 'block';
+      signupForm.style.display = 'none';
+      loginBtn.style.background = '#2563eb';
+      loginBtn.style.color = 'white';
+      signupBtn.style.background = '#e5e7eb';
+      signupBtn.style.color = 'black';
+    } else {
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+      signupBtn.style.background = '#22c55e';
+      signupBtn.style.color = 'white';
+      loginBtn.style.background = '#e5e7eb';
+      loginBtn.style.color = 'black';
+    }
+  }
+
+  window.registerUser = function() {
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const status = document.getElementById('auth-status');
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        status.style.color = "green";
+        status.innerText = "Registration successful!";
+        setTimeout(() => closeAuthModal(), 2000);
+      })
+      .catch((error) => {
+        status.style.color = "red";
+        status.innerText = "Error: " + error.message;
+      });
+  };
+
+  window.loginUser = function() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const status = document.getElementById('auth-status');
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        status.style.color = "green";
+        status.innerText = "Login successful!";
+        setTimeout(() => closeAuthModal(), 2000);
+      })
+      .catch((error) => {
+        status.style.color = "red";
+        status.innerText = "Error: " + error.message;
+      });
+  };
+</script>
