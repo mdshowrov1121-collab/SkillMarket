@@ -1,5 +1,256 @@
-# SkillMarket
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillMarket</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between font-sans">
 
-A freelance marketplace where clients can hire skilled workers and freelancers can offer services.
+    <!-- Navbar -->
+    <nav class="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold italic tracking-wide">SkillMarket</h1>
+        <div class="flex items-center gap-3">
+            <div id="userProfileDisplay" class="hidden flex items-center gap-2">
+                <img id="navProfileImg" src="" alt="Profile" class="w-9 h-9 rounded-full object-cover border-2 border-violet-500">
+                <button id="logoutBtn" class="text-xs bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg transition cursor-pointer">Logout</button>
+            </div>
+            <button id="joinBtn" class="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Join Now</button>
+        </div>
+    </nav>
 
-Coming Soon...
+    <div class="container mx-auto p-4 max-w-xl flex-1">
+        <!-- Search Section -->
+        <div class="flex gap-2 mb-6 mt-6">
+            <input type="text" id="searchInput" placeholder="Search services..." class="flex-1 border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white shadow-sm">
+            <button id="searchBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium shadow-sm transition cursor-pointer">Search</button>
+        </div>
+
+        <!-- Popular Services -->
+        <div id="mainContent">
+            <h2 class="text-2xl font-serif text-center mb-6 italic text-gray-800">Popular Services</h2>
+            
+            <div id="servicesList" class="grid gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Graphic Design</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Logos, banners and thumbnails.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Video Editing</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Professional editing services.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Web Development</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Modern website creation.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center">
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">Digital Marketing</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">Grow your business online.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative">
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold cursor-pointer">&times;</button>
+            <h2 class="text-xl font-serif italic font-bold mb-4 text-gray-800">SkillMarket Account</h2>
+            
+            <!-- Tabs -->
+            <div class="flex rounded-xl bg-gray-100 p-1 mb-4">
+                <button id="loginTabBtn" class="flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer">Login</button>
+                <button id="signupTabBtn" class="flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer">Sign Up</button>
+            </div>
+
+            <!-- Form -->
+            <div>
+                <!-- Profile Picture Upload (Only for Signup) -->
+                <div id="profileUploadContainer" class="mb-3 flex flex-col items-center">
+                    <label class="w-full text-xs text-gray-500 mb-1 font-medium">Upload Profile Picture</label>
+                    <div class="flex items-center gap-3 w-full">
+                        <input type="file" id="profilePicInput" accept="image/*" class="w-full border border-gray-300 p-2 rounded-xl text-xs bg-gray-50 cursor-pointer">
+                    </div>
+                </div>
+
+                <input type="email" id="userEmail" placeholder="Email" class="w-full border border-gray-300 p-3 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <input type="password" id="userPassword" placeholder="Password" class="w-full border border-gray-300 p-3 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <button id="authActionBtn" class="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-medium shadow-sm transition cursor-pointer">Register</button>
+                <p id="errorMsg" class="text-red-500 text-xs mt-3 text-center"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white text-center py-4 text-sm tracking-wide">
+        © 2026 SkillMarket - All Rights Reserved
+    </footer>
+
+    <!-- Firebase & App Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase/auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyCizL6Mk-KRBCEWN-P4N_yLH-lE9AbuUM",
+          authDomain: "skillmarketnew.firebaseapp.com",
+          projectId: "skillmarketnew",
+          storageBucket: "skillmarketnew.appspot.com",
+          messagingSenderId: "215310657131",
+          appId: "1:215310657131:web:8c491a920a0a5fc8d0732e",
+          measurementId: "G-3WWJ3Z7BNQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        let currentMode = 'signup';
+        let uploadedPicData = '';
+
+        const authModal = document.getElementById('authModal');
+        const joinBtn = document.getElementById('joinBtn');
+        const userProfileDisplay = document.getElementById('userProfileDisplay');
+        const navProfileImg = document.getElementById('navProfileImg');
+        const profileUploadContainer = document.getElementById('profileUploadContainer');
+
+        joinBtn.addEventListener('click', () => {
+            authModal.classList.remove('hidden');
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            authModal.classList.add('hidden');
+            document.getElementById('errorMsg').innerText = '';
+        });
+
+        // Profile Picture Handler
+        document.getElementById('profilePicInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    uploadedPicData = uploadEvent.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Tabs
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const signupTabBtn = document.getElementById('signupTabBtn');
+        const authActionBtn = document.getElementById('authActionBtn');
+
+        loginTabBtn.addEventListener('click', () => {
+            currentMode = 'login';
+            loginTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer";
+            signupTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer";
+            authActionBtn.innerText = "Login";
+            profileUploadContainer.style.display = 'none';
+            document.getElementById('errorMsg').innerText = '';
+        });
+
+        signupTabBtn.addEventListener('click', () => {
+            currentMode = 'signup';
+            signupTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition bg-violet-600 text-white shadow-sm cursor-pointer";
+            loginTabBtn.className = "flex-1 py-2 rounded-lg font-medium text-sm transition text-gray-600 cursor-pointer";
+            authActionBtn.innerText = "Register";
+            profileUploadContainer.style.display = 'flex';
+            document.getElementById('errorMsg').innerText = '';
+        });
+
+        // Auth Action
+        authActionBtn.addEventListener('click', () => {
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            const errorBox = document.getElementById('errorMsg');
+            errorBox.innerText = '';
+
+            if(!email || !password) {
+                errorBox.innerText = "Please fill in all fields.";
+                return;
+            }
+
+            if(currentMode === 'login') {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        alert("Login successful!");
+                        authModal.classList.add('hidden');
+                    })
+                    .catch((error) => {
+                        errorBox.innerText = "Error: " + error.message;
+                    });
+            } else {
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        if(uploadedPicData) {
+                            localStorage.setItem('profilePic_' + email, uploadedPicData);
+                        }
+                        alert("Registration successful!");
+                        authModal.classList.add('hidden');
+                    })
+                    .catch((error) => {
+                        errorBox.innerText = "Error: " + error.message;
+                    });
+            }
+        });
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                joinBtn.classList.add('hidden');
+                userProfileDisplay.classList.remove('hidden');
+                const savedPic = localStorage.getItem('profilePic_' + user.email);
+                if(savedPic) {
+                    navProfileImg.src = savedPic;
+                } else {
+                    navProfileImg.src = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.ico";
+                }
+            } else {
+                joinBtn.classList.remove('hidden');
+                userProfileDisplay.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                alert("Logged out successfully!");
+            });
+        });
+
+        // Search Functionality
+        const services = [
+            { title: "Graphic Design", desc: "Logos, banners and thumbnails." },
+            { title: "Video Editing", desc: "Professional editing services." },
+            { title: "Web Development", desc: "Modern website creation." },
+            { title: "Digital Marketing", desc: "Grow your business online." }
+        ];
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const listContainer = document.getElementById('servicesList');
+            
+            const filtered = services.filter(s => s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query));
+
+            listContainer.innerHTML = '';
+            if (filtered.length === 0) {
+                listContainer.innerHTML = '<p class="text-center text-gray-500 py-4">No services found.</p>';
+                return;
+            }
+
+            filtered.forEach(service => {
+                const div = document.createElement('div');
+                div.className = 'bg-white p-5 rounded-2xl shadow-sm border border-gray-200 text-center';
+                div.innerHTML = `
+                    <h3 class="text-lg font-serif italic font-bold text-gray-800">${service.title}</h3>
+                    <p class="text-gray-600 text-sm italic mt-1">${service.desc}</p>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+
+        document.getElementById('searchBtn').addEventListener('click', performSearch);
+        document.getElementById('searchInput').addEventListener('keyup', performSearch);
+    </script>
+</body>
+</html>
