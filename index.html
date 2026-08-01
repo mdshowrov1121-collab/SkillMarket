@@ -5,30 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillMarket - Find The Best Freelancers</title>
   <style>
-    *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
-    body{ background:#f8fafc; }
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body{ background:#f8fafc; color:#333; }
     header{ background:#0f172a; padding:15px 40px; display:flex; justify-content:space-between; align-items:center; color:white; }
-    .logo{ font-size:28px; font-weight:bold; }
-    nav a{ color:white; text-decoration:none; margin-left:20px; cursor:pointer; }
+    .logo{ font-size:24px; font-weight:bold; }
+    nav a{ color:white; text-decoration:none; margin-left:15px; cursor:pointer; font-size:14px; }
     nav a:hover{ color:#22c55e; }
-    .hero{ padding:100px 20px; text-align:center; background:linear-gradient(135deg,#0f172a,#2563eb); color:white; }
-    .hero h1{ font-size:55px; margin-bottom:15px; }
-    .hero p{ font-size:20px; margin-bottom:25px; }
-    .search-box{ max-width:600px; margin:auto; display:flex; }
-    .search-box input{ flex:1; padding:15px; border:none; outline:none; border-radius:10px 0 0 10px; }
-    .search-box button{ padding:15px 25px; border:none; background:#22c55e; color:white; cursor:pointer; border-radius:0 10px 10px 0; }
-    .services{ padding:60px 20px; }
-    .services h2{ text-align:center; margin-bottom:40px; font-size:40px; }
-    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; max-width:1200px; margin:auto; }
-    .card{ background:white; padding:25px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,.08); transition:.3s; }
-    .card:hover{ transform:translateY(-5px); }
-    .card h3{ margin-bottom:10px; }
-    .card p{ color:#666; }
-    footer{ background:#0f172a; color:white; text-align:center; padding:25px; margin-top:50px; }
+    .hero{ padding:80px 20px; text-align:center; background:linear-gradient(135deg,#0f172a,#2563eb); color:white; }
+    .hero h1{ font-size:38px; margin-bottom:10px; }
+    .hero p{ font-size:16px; margin-bottom:20px; }
+    .search-box{ max-width:500px; margin:auto; display:flex; }
+    .search-box input{ flex:1; padding:12px; border:none; outline:none; border-radius:8px 0 0 8px; font-size:14px; }
+    .search-box button{ padding:12px 20px; border:none; background:#22c55e; color:white; cursor:pointer; border-radius:0 8px 8px 0; font-size:14px; }
+    .services{ padding:40px 20px; }
+    .services h2{ text-align:center; margin-bottom:30px; font-size:30px; }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; max-width:1100px; margin:auto; }
+    .card{ background:white; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.05); }
+    .card h3{ margin-bottom:8px; font-size:18px; }
+    .card p{ color:#666; font-size:14px; }
+    footer{ background:#0f172a; color:white; text-align:center; padding:20px; margin-top:40px; font-size:14px; }
 
     /* Modal & Profile Styles */
-    .box input{ width:100%; padding:10px; margin:8px 0; border:1px solid #cbd5e1; border-radius:6px; outline:none; }
-    .box button.action-btn{ width:100%; padding:10px; background:#22c55e; color:#fff; border:none; cursor:pointer; border-radius:6px; font-weight:bold; margin-top:5px; }
+    .box input{ width:100%; padding:10px; margin:6px 0; border:1px solid #cbd5e1; border-radius:6px; outline:none; font-size:14px; }
+    .box button.action-btn{ width:100%; padding:10px; background:#22c55e; color:#fff; border:none; cursor:pointer; border-radius:6px; font-weight:bold; margin-top:5px; font-size:14px; }
     .box button.action-btn:hover{ background:#16a34a; }
     #userBox{ display:none; text-align:center; }
     .profile-img{ width:80px; height:80px; border-radius:50%; object-fit:cover; margin:10px auto; border:2px solid #22c55e; display:block; }
@@ -51,12 +50,12 @@
     <h1>Find The Best Freelancers</h1>
     <p>Hire experts for design, development, marketing and more.</p>
     <div class="search-box">
-      <input type="text" placeholder="What service are you looking for today?">
+      <input type="text" placeholder="Search service...">
       <button>Search</button>
     </div>
   </section>
 
-  <!-- Popular Services Grid Section -->
+  <!-- Services Section -->
   <section class="services" id="services">
     <h2>Popular Services</h2>
     <div class="grid">
@@ -76,19 +75,11 @@
         <h3>Digital Marketing</h3>
         <p>Grow Your Business Online.</p>
       </div>
-      <div class="card">
-        <h3>Content Writing</h3>
-        <p>SEO Friendly Content & Articles.</p>
-      </div>
-      <div class="card">
-        <h3>Mobile App Development</h3>
-        <p>Android & iOS Application Development.</p>
-      </div>
     </div>
   </section>
 
   <!-- Login Modal Box -->
-  <div id="loginBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,.3);width:340px;z-index:999;max-height:90vh;overflow-y:auto;">
+  <div id="loginBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.3);width:90%;max-width:340px;z-index:999;max-height:90vh;overflow-y:auto;">
     
     <!-- Auth Box -->
     <div class="box" id="authBox">
@@ -102,7 +93,7 @@
       <p id="msg" style="font-size: 13px; margin-top: 8px; color: #ef4444; text-align: center;"></p>
     </div>
 
-    <!-- User Profile & Edit Box -->
+    <!-- User Profile Box -->
     <div class="box" id="userBox">
       <h3>My Profile</h3>
       <img id="profilePicPreview" src="https://via.placeholder.com/80" class="profile-img" alt="Profile">
@@ -113,8 +104,8 @@
         <label style="font-size:12px; font-weight:bold;">Name:</label>
         <input type="text" id="profileName" placeholder="Your Name">
         
-        <label style="font-size:12px; font-weight:bold;">Upload Profile Picture:</label>
-        <input type="file" id="profileImageFile" accept="image/*" style="padding:5px;">
+        <label style="font-size:12px; font-weight:bold;">Profile Picture URL:</label>
+        <input type="text" id="profileImageURL" placeholder="Paste Image Direct Link (URL)">
       </div>
 
       <button class="action-btn" onclick="updateProfileData()">Save Profile</button>
@@ -122,47 +113,22 @@
       <p id="profileMsg" style="font-size: 12px; margin-top: 5px; text-align: center;"></p>
     </div>
 
-    <button onclick="closeLogin()" style="width:100%;padding:10px;background:#64748b;color:white;border:none;margin-top:15px;border-radius:6px;cursor:pointer;font-weight:bold;">Close</button>
+    <button onclick="closeLogin()" style="width:100%;padding:10px;background:#64748b;color:white;border:none;margin-top:15px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:14px;">Close</button>
   </div>
 
-  <!-- Footer Section -->
   <footer>
     <p>&copy; 2026 SkillMarket. All Rights Reserved.</p>
   </footer>
 
-  <!-- Scripts -->
   <script>
-    function showLogin(){
-      document.getElementById("loginBox").style.display="block";
-    }
-
-    function closeLogin(){
-      document.getElementById("loginBox").style.display="none";
-    }
+    function showLogin(){ document.getElementById("loginBox").style.display="block"; }
+    function closeLogin(){ document.getElementById("loginBox").style.display="none"; }
   </script>
 
-  <!-- Firebase Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-    import {
-      getStorage,
-      ref,
-      uploadBytes,
-      getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCiZZL6Mk-KRBCEWN-P4N_ylH-iE9AbuuM",
@@ -177,25 +143,16 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
     window.signup = async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-
-      try{
+      try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        await setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-          name: "",
-          photoUrl: ""
-        }, { merge: true });
-
+        await setDoc(doc(db, "users", userCredential.user.uid), { email: userCredential.user.email, name: "", photoUrl: "" }, { merge: true });
         document.getElementById("msg").style.color = "#22c55e";
-        document.getElementById("msg").innerText = "Signup Successful";
-      }catch(err){
+        document.getElementById("msg").innerText = "Signup Successful!";
+      } catch(err) {
         document.getElementById("msg").style.color = "#ef4444";
         document.getElementById("msg").innerText = err.message;
       }
@@ -204,11 +161,10 @@
     window.login = async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-
-      try{
+      try {
         await signInWithEmailAndPassword(auth, email, password);
         closeLogin();
-      }catch(err){
+      } catch(err) {
         document.getElementById("msg").style.color = "#ef4444";
         document.getElementById("msg").innerText = err.message;
       }
@@ -224,22 +180,13 @@
       if (!user) return;
 
       const name = document.getElementById("profileName").value;
-      const imageFile = document.getElementById("profileImageFile").files[0];
+      const photoUrl = document.getElementById("profileImageURL").value;
       const pMsg = document.getElementById("profileMsg");
 
       pMsg.style.color = "#2563eb";
-      pMsg.innerText = "Updating profile...";
+      pMsg.innerText = "Saving...";
 
       try {
-        let photoUrl = document.getElementById("profilePicPreview").src;
-        
-        // Updated Storage path structure with profile.jpg file format
-        if (imageFile) {
-          const storageRef = ref(storage, `profile_images/${user.uid}/profile.jpg`);
-          await uploadBytes(storageRef, imageFile);
-          photoUrl = await getDownloadURL(storageRef);
-        }
-
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           name: name,
@@ -247,15 +194,9 @@
         }, { merge: true });
 
         pMsg.style.color = "#22c55e";
-        pMsg.innerText = "Profile Updated Successfully!";
-        
-        if(name) {
-          document.getElementById("navLoginBtn").innerText = "👤 " + name;
-        }
-
-        if(photoUrl && photoUrl !== "https://via.placeholder.com/80") {
-          document.getElementById("profilePicPreview").src = photoUrl;
-        }
+        pMsg.innerText = "Saved Successfully!";
+        if(name) document.getElementById("navLoginBtn").innerText = "👤 " + name;
+        if(photoUrl) document.getElementById("profilePicPreview").src = photoUrl;
       } catch (err) {
         pMsg.style.color = "#ef4444";
         pMsg.innerText = err.message;
@@ -269,40 +210,23 @@
         document.getElementById("userBox").style.display = "block";
         document.getElementById("userEmail").innerText = user.email;
 
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-
+        const docSnap = await getDoc(doc(db, "users", user.uid));
         if (docSnap.exists()) {
           const data = docSnap.data();
           document.getElementById("profileName").value = data.name || "";
-          
-          if(data.name) {
-            navBtn.innerText = "👤 " + data.name;
-          } else {
-            navBtn.innerText = "👤 Profile";
-          }
-
-          if(data.photoUrl) {
-            document.getElementById("profilePicPreview").src = data.photoUrl;
-          } else {
-            document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
-          }
+          document.getElementById("profileImageURL").value = data.photoUrl || "";
+          if(data.name) navBtn.innerText = "👤 " + data.name;
+          if(data.photoUrl) document.getElementById("profilePicPreview").src = data.photoUrl;
         }
-      }else{
+      } else {
         document.getElementById("authBox").style.display = "block";
         document.getElementById("userBox").style.display = "none";
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
-        document.getElementById("profileImageFile").value = "";
-        document.getElementById("msg").innerText = "";
         document.getElementById("profileMsg").innerText = "";
-        document.getElementById("profileName").value = "";
-        document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
-        
         navBtn.innerText = "Login";
       }
     });
   </script>
-
 </body>
 </html>
