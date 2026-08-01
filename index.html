@@ -1,280 +1,194 @@
-<!DOCTYPE html><html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkillMarket</title><style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f8fafc;
-}
-
-header{
-background:#0f172a;
-padding:15px 40px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-color:white;
-}
-
-.logo{
-font-size:28px;
-font-weight:bold;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-}
-
-.hero{
-padding:100px 20px;
-text-align:center;
-background:linear-gradient(135deg,#0f172a,#2563eb);
-color:white;
-}
-
-.hero h1{
-font-size:55px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:20px;
-margin-bottom:25px;
-}
-
-.search-box{
-max-width:600px;
-margin:auto;
-display:flex;
-}
-
-.search-box input{
-flex:1;
-padding:15px;
-border:none;
-outline:none;
-border-radius:10px 0 0 10px;
-}
-
-.search-box button{
-padding:15px 25px;
-border:none;
-background:#22c55e;
-color:white;
-cursor:pointer;
-border-radius:0 10px 10px 0;
-}
-
-.services{
-padding:60px 20px;
-}
-
-.services h2{
-text-align:center;
-margin-bottom:40px;
-font-size:40px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-max-width:1200px;
-margin:auto;
-}
-
-.card{
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-}
-
-.card h3{
-margin-bottom:10px;
-}
-
-.card p{
-color:#666;
-}
-
-footer{
-background:#0f172a;
-color:white;
-text-align:center;
-padding:25px;
-margin-top:50px;
-}
-</style></head><body><header>
-<div class="logo">SkillMarket</div><nav>
-<a href="#">Home</a>
-<a href="#">Services</a>
-<a href="#">Login</a>
-</nav>
-</header><section class="hero">
-<h1>Find The Best Freelancers</h1>
-<p>Hire experts for design, development, marketing and more.</p><div class="search-box">
-<input type="text" placeholder="Search services...">
-<button>Search</button>
-</div>
-</section><section class="services">
-<h2>Popular Services</h2><div class="grid"><div class="card">
-<h3>Graphic Design</h3>
-<p>Logo, Banner, Thumbnail Design.</p>
-</div><div class="card">
-<h3>Web Development</h3>
-<p>Modern Website & Web App Creation.</p>
-</div><div class="card">
-<h3>Video Editing</h3>
-<p>Professional Editing For YouTube.</p>
-</div><div class="card">
-<h3>Digital Marketing</h3>
-<p>Grow Your Business Online.</p>
-</div><div class="card">
-<h3>Content Writing</h3>
-<p>SEO Friendly Content & Articles.</p>
-</div><div class="card">
-<h3>Mobile App Development</h3>
-<p>Android & iOS Application Development.</p>
-</div></div>
-</section><footer>
-© 2026 SkillMarket. All Rights Reserved.
-</footer></body>
-</html>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkillMarket Login</title>
+  <title>SkillMarket - Find The Best Freelancers</title>
   <style>
-    body{
-      font-family:Arial,sans-serif;
-      background:#f5f5f5;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-    .box{
-      background:#fff;
-      padding:20px;
-      border-radius:10px;
-      width:320px;
-      box-shadow:0 0 10px rgba(0,0,0,.1);
-    }
-    input,button{
-      width:100%;
-      padding:10px;
-      margin:8px 0;
-    }
-    button{
-      background:#22c55e;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-    }
-    #userBox{
-      display:none;
-      text-align:center;
-    }
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+    body{ background:#f8fafc; }
+    header{ background:#0f172a; padding:15px 40px; display:flex; justify-content:space-between; align-items:center; color:white; }
+    .logo{ font-size:28px; font-weight:bold; }
+    nav a{ color:white; text-decoration:none; margin-left:20px; cursor:pointer; }
+    nav a:hover{ color:#22c55e; }
+    .hero{ padding:100px 20px; text-align:center; background:linear-gradient(135deg,#0f172a,#2563eb); color:white; }
+    .hero h1{ font-size:55px; margin-bottom:15px; }
+    .hero p{ font-size:20px; margin-bottom:25px; }
+    .search-box{ max-width:600px; margin:auto; display:flex; }
+    .search-box input{ flex:1; padding:15px; border:none; outline:none; border-radius:10px 0 0 10px; }
+    .search-box button{ padding:15px 25px; border:none; background:#22c55e; color:white; cursor:pointer; border-radius:0 10px 10px 0; }
+    .services{ padding:60px 20px; }
+    .services h2{ text-align:center; margin-bottom:40px; font-size:40px; }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; max-width:1200px; margin:auto; }
+    .card{ background:white; padding:25px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,.08); transition:.3s; }
+    .card:hover{ transform:translateY(-5px); }
+    .card h3{ margin-bottom:10px; }
+    .card p{ color:#666; }
+    footer{ background:#0f172a; color:white; text-align:center; padding:25px; margin-top:50px; }
+
+    /* Firebase Box Internal Styles */
+    .box input{ width:100%; padding:10px; margin:8px 0; border:1px solid #cbd5e1; border-radius:6px; outline:none; }
+    .box button.action-btn{ width:100%; padding:10px; background:#22c55e; color:#fff; border:none; cursor:pointer; border-radius:6px; font-weight:bold; margin-top:5px; }
+    .box button.action-btn:hover{ background:#16a34a; }
+    #userBox{ display:none; text-align:center; }
   </style>
 </head>
 <body>
 
-<div class="box" id="authBox">
-  <h2>SkillMarket</h2>
+  <!-- Header Section -->
+  <header>
+    <div class="logo">SkillMarket</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#services">Services</a>
+      <a onclick="showLogin()">Login</a>
+    </nav>
+  </header>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Find The Best Freelancers</h1>
+    <p>Hire experts for design, development, marketing and more.</p>
+    <div class="search-box">
+      <input type="text" placeholder="What service are you looking for today?">
+      <button>Search</button>
+    </div>
+  </section>
 
-  <button onclick="signup()">Sign Up</button>
-  <button onclick="login()">Login</button>
+  <!-- Popular Services Grid Section -->
+  <section class="services" id="services">
+    <h2>Popular Services</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Graphic Design</h3>
+        <p>Logo, Banner, Thumbnail Design.</p>
+      </div>
+      <div class="card">
+        <h3>Web Development</h3>
+        <p>Modern Website & Web App Creation.</p>
+      </div>
+      <div class="card">
+        <h3>Video Editing</h3>
+        <p>Professional Editing For YouTube.</p>
+      </div>
+      <div class="card">
+        <h3>Digital Marketing</h3>
+        <p>Grow Your Business Online.</p>
+      </div>
+      <div class="card">
+        <h3>Content Writing</h3>
+        <p>SEO Friendly Content & Articles.</p>
+      </div>
+      <div class="card">
+        <h3>Mobile App Development</h3>
+        <p>Android & iOS Application Development.</p>
+      </div>
+    </div>
+  </section>
 
-  <p id="msg"></p>
-</div>
+  <!-- Login Modal Box -->
+  <div id="loginBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,.3);width:320px;z-index:999;">
+    
+    <div class="box" id="authBox">
+      <h2>SkillMarket Login</h2>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
 
-<div class="box" id="userBox">
-  <h3>Welcome</h3>
-  <p id="userEmail"></p>
-  <button onclick="logout()">Logout</button>
-</div>
+      <button class="action-btn" onclick="signup()">Sign Up</button>
+      <button class="action-btn" onclick="login()">Login</button>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+      <p id="msg" style="font-size: 13px; margin-top: 8px; color: #ef4444; text-align: center;"></p>
+    </div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCiZZL6Mk-KRBCEWN-P4N_ylH-iE9AbuuM",
-  authDomain: "skillmarketnew.firebaseapp.com",
-  projectId: "skillmarketnew",
-  storageBucket: "skillmarketnew.firebasestorage.app",
-  messagingSenderId: "215310657131",
-  appId: "1:215310657131:web:8c491a920a0a5fc8d0732e",
-  measurementId: "G-3WWJ3Z7BNQ"
-};
+    <div class="box" id="userBox">
+      <h3>Welcome</h3>
+      <p id="userEmail" style="margin: 10px 0; color: #475569;"></p>
+      <button class="action-btn" onclick="logout()" style="background:#2563eb;">Logout</button>
+    </div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+    <button onclick="closeLogin()" style="width:100%;padding:10px;background:red;color:white;border:none;margin-top:10px;border-radius:6px;cursor:pointer;font-weight:bold;">Close</button>
+  </div>
 
-window.signup = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2026 SkillMarket. All Rights Reserved.</p>
+  </footer>
 
-  try{
-    await createUserWithEmailAndPassword(auth,email,password);
-    document.getElementById("msg").innerText="Signup Successful";
-  }catch(err){
-    document.getElementById("msg").innerText=err.message;
-  }
-};
+  <!-- Scripts -->
+  <script>
+    function showLogin(){
+      document.getElementById("loginBox").style.display="block";
+    }
 
-window.login = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+    function closeLogin(){
+      document.getElementById("loginBox").style.display="none";
+    }
+  </script>
 
-  try{
-    await signInWithEmailAndPassword(auth,email,password);
-  }catch(err){
-    document.getElementById("msg").innerText=err.message;
-  }
-};
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-window.logout = async () => {
-  await signOut(auth);
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCiZZL6Mk-KRBCEWN-P4N_ylH-iE9AbuuM",
+      authDomain: "skillmarketnew.firebaseapp.com",
+      projectId: "skillmarketnew",
+      storageBucket: "skillmarketnew.firebasestorage.app",
+      messagingSenderId: "215310657131",
+      appId: "1:215310657131:web:8c491a920a0a5fc8d0732e",
+      measurementId: "G-3WWJ3Z7BNQ"
+    };
 
-onAuthStateChanged(auth,(user)=>{
-  if(user){
-    document.getElementById("authBox").style.display="none";
-    document.getElementById("userBox").style.display="block";
-    document.getElementById("userEmail").innerText=user.email;
-  }else{
-    document.getElementById("authBox").style.display="block";
-    document.getElementById("userBox").style.display="none";
-  }
-});
-</script>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.signup = async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try{
+        await createUserWithEmailAndPassword(auth, email, password);
+        document.getElementById("msg").style.color = "#22c55e";
+        document.getElementById("msg").innerText = "Signup Successful";
+      }catch(err){
+        document.getElementById("msg").style.color = "#ef4444";
+        document.getElementById("msg").innerText = err.message;
+      }
+    };
+
+    window.login = async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try{
+        await signInWithEmailAndPassword(auth, email, password);
+      }catch(err){
+        document.getElementById("msg").style.color = "#ef4444";
+        document.getElementById("msg").innerText = err.message;
+      }
+    };
+
+    window.logout = async () => {
+      await signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user)=>{
+      if(user){
+        document.getElementById("authBox").style.display = "none";
+        document.getElementById("userBox").style.display = "block";
+        document.getElementById("userEmail").innerText = user.email;
+      }else{
+        document.getElementById("authBox").style.display = "block";
+        document.getElementById("userBox").style.display = "none";
+      }
+    });
+  </script>
 
 </body>
 </html>
