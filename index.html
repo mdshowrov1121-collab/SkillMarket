@@ -42,7 +42,7 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="#services">Services</a>
-      <a onclick="showLogin()">Login</a>
+      <a onclick="showLogin()" id="navLoginBtn">Login</a>
     </nav>
   </header>
 
@@ -181,7 +181,6 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Create default profile document in Firestore with merge option
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           name: "",
@@ -202,6 +201,7 @@
 
       try{
         await signInWithEmailAndPassword(auth, email, password);
+        closeLogin(); // Successfully login hole modal automatic close hoye jabe
       }catch(err){
         document.getElementById("msg").style.color = "#ef4444";
         document.getElementById("msg").innerText = err.message;
@@ -210,6 +210,7 @@
 
     window.logout = async () => {
       await signOut(auth);
+      closeLogin();
     };
 
     window.updateProfileData = async () => {
@@ -229,6 +230,12 @@
 
         pMsg.style.color = "#22c55e";
         pMsg.innerText = "Profile Updated Successfully!";
+        
+        // Navbar name update instantly
+        if(name) {
+          document.getElementById("navLoginBtn").innerText = "👤 " + name;
+        }
+
         if(photoUrl) {
           document.getElementById("profilePicPreview").src = photoUrl;
         } else {
@@ -241,12 +248,13 @@
     };
 
     onAuthStateChanged(auth, async (user)=>{
+      const navBtn = document.getElementById("navLoginBtn");
       if(user){
         document.getElementById("authBox").style.display = "none";
         document.getElementById("userBox").style.display = "block";
         document.getElementById("userEmail").innerText = user.email;
 
-        // Fetch user profile data from Firestore
+        // Fetch user profile data from Firestore to show name in Navbar
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
 
@@ -254,6 +262,13 @@
           const data = docSnap.data();
           document.getElementById("profileName").value = data.name || "";
           document.getElementById("profileImage").value = data.photoUrl || "";
+          
+          if(data.name) {
+            navBtn.innerText = "👤 " + data.name;
+          } else {
+            navBtn.innerText = "👤 Profile";
+          }
+
           if(data.photoUrl) {
             document.getElementById("profilePicPreview").src = data.photoUrl;
           } else {
@@ -270,6 +285,9 @@
         document.getElementById("profileName").value = "";
         document.getElementById("profileImage").value = "";
         document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
+        
+        // Reset navbar text back to Login
+        navBtn.innerText = "Login";
       }
     });
   </script>
