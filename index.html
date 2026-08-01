@@ -26,11 +26,12 @@
     .card p{ color:#666; }
     footer{ background:#0f172a; color:white; text-align:center; padding:25px; margin-top:50px; }
 
-    /* Firebase Box Internal Styles */
+    /* Modal & Profile Styles */
     .box input{ width:100%; padding:10px; margin:8px 0; border:1px solid #cbd5e1; border-radius:6px; outline:none; }
     .box button.action-btn{ width:100%; padding:10px; background:#22c55e; color:#fff; border:none; cursor:pointer; border-radius:6px; font-weight:bold; margin-top:5px; }
     .box button.action-btn:hover{ background:#16a34a; }
     #userBox{ display:none; text-align:center; }
+    .profile-img{ width:80px; height:80px; border-radius:50%; object-fit:cover; margin:10px auto; border:2px solid #22c55e; display:block; }
   </style>
 </head>
 <body>
@@ -87,8 +88,9 @@
   </section>
 
   <!-- Login Modal Box -->
-  <div id="loginBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,.3);width:320px;z-index:999;">
+  <div id="loginBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,.3);width:340px;z-index:999;max-height:90vh;overflow-y:auto;">
     
+    <!-- Auth Box -->
     <div class="box" id="authBox">
       <h2>SkillMarket Login</h2>
       <input type="email" id="email" placeholder="Email">
@@ -100,13 +102,27 @@
       <p id="msg" style="font-size: 13px; margin-top: 8px; color: #ef4444; text-align: center;"></p>
     </div>
 
+    <!-- User Profile & Edit Box -->
     <div class="box" id="userBox">
-      <h3>Welcome</h3>
-      <p id="userEmail" style="margin: 10px 0; color: #475569;"></p>
-      <button class="action-btn" onclick="logout()" style="background:#2563eb;">Logout</button>
+      <h3>My Profile</h3>
+      <img id="profilePicPreview" src="https://via.placeholder.com/80" class="profile-img" alt="Profile">
+      
+      <p id="userEmail" style="margin: 5px 0; font-size: 13px; color: #64748b;"></p>
+
+      <div style="text-align:left; margin-top:10px;">
+        <label style="font-size:12px; font-weight:bold;">Name:</label>
+        <input type="text" id="profileName" placeholder="Your Name">
+        
+        <label style="font-size:12px; font-weight:bold;">Profile Picture URL:</label>
+        <input type="text" id="profileImage" placeholder="Image Link (URL)">
+      </div>
+
+      <button class="action-btn" onclick="updateProfileData()">Save Profile</button>
+      <button class="action-btn" onclick="logout()" style="background:#ef4444; margin-top:8px;">Logout</button>
+      <p id="profileMsg" style="font-size: 12px; margin-top: 5px; text-align: center;"></p>
     </div>
 
-    <button onclick="closeLogin()" style="width:100%;padding:10px;background:red;color:white;border:none;margin-top:10px;border-radius:6px;cursor:pointer;font-weight:bold;">Close</button>
+    <button onclick="closeLogin()" style="width:100%;padding:10px;background:#64748b;color:white;border:none;margin-top:15px;border-radius:6px;cursor:pointer;font-weight:bold;">Close</button>
   </div>
 
   <!-- Footer Section -->
@@ -125,6 +141,7 @@
     }
   </script>
 
+  <!-- Firebase Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
     import {
@@ -134,6 +151,16 @@
       signOut,
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      updatedoc
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    // Note: If updatedoc gives issue, use updateDoc from firestore SDK if needed, but standard setDoc with merge:true handles creation/updates easily.
+
+    import { updateDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCiZZL6Mk-KRBCEWN-P4N_ylH-iE9AbuuM",
@@ -147,13 +174,23 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
     window.signup = async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
       try{
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Create default profile document in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          name: "",
+          photoUrl: ""
+        });
+
         document.getElementById("msg").style.color = "#22c55e";
         document.getElementById("msg").innerText = "Signup Successful";
       }catch(err){
@@ -178,14 +215,55 @@
       await signOut(auth);
     };
 
-    onAuthStateChanged(auth, (user)=>{
+    window.updateProfileData = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const name = document.getElementById("profileName").value;
+      const photoUrl = document.getElementById("profileImage").value;
+      const pMsg = document.getElementById("profileMsg");
+
+      try {
+        await updateDoc(doc(db, "users", user.uid), {
+          name: name,
+          photoUrl: photoUrl
+        });
+
+        pMsg.style.color = "#22c55e";
+        pMsg.innerText = "Profile Updated Successfully!";
+        if(photoUrl) {
+          document.getElementById("profilePicPreview").src = photoUrl;
+        }
+      } catch (err) {
+        pMsg.style.color = "#ef4444";
+        pMsg.innerText = err.message;
+      }
+    };
+
+    onAuthStateChanged(auth, async (user)=>{
       if(user){
         document.getElementById("authBox").style.display = "none";
         document.getElementById("userBox").style.display = "block";
         document.getElementById("userEmail").innerText = user.email;
+
+        // Fetch user profile data from Firestore
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          document.getElementById("profileName").value = data.name || "";
+          document.getElementById("profileImage").value = data.photoUrl || "";
+          if(data.photoUrl) {
+            document.getElementById("profilePicPreview").src = data.photoUrl;
+          }
+        }
       }else{
         document.getElementById("authBox").style.display = "block";
         document.getElementById("userBox").style.display = "none";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("msg").innerText = "";
       }
     });
   </script>
