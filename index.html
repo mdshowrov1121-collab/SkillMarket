@@ -156,11 +156,8 @@
       doc,
       setDoc,
       getDoc,
-      updatedoc
+      updateDoc
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-    // Note: If updatedoc gives issue, use updateDoc from firestore SDK if needed, but standard setDoc with merge:true handles creation/updates easily.
-
-    import { updateDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCiZZL6Mk-KRBCEWN-P4N_ylH-iE9AbuuM",
@@ -184,12 +181,12 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Create default profile document in Firestore
+        // Create default profile document in Firestore with merge option
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           name: "",
           photoUrl: ""
-        });
+        }, { merge: true });
 
         document.getElementById("msg").style.color = "#22c55e";
         document.getElementById("msg").innerText = "Signup Successful";
@@ -224,15 +221,18 @@
       const pMsg = document.getElementById("profileMsg");
 
       try {
-        await updateDoc(doc(db, "users", user.uid), {
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
           name: name,
           photoUrl: photoUrl
-        });
+        }, { merge: true });
 
         pMsg.style.color = "#22c55e";
         pMsg.innerText = "Profile Updated Successfully!";
         if(photoUrl) {
           document.getElementById("profilePicPreview").src = photoUrl;
+        } else {
+          document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
         }
       } catch (err) {
         pMsg.style.color = "#ef4444";
@@ -256,6 +256,8 @@
           document.getElementById("profileImage").value = data.photoUrl || "";
           if(data.photoUrl) {
             document.getElementById("profilePicPreview").src = data.photoUrl;
+          } else {
+            document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
           }
         }
       }else{
@@ -264,6 +266,10 @@
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
         document.getElementById("msg").innerText = "";
+        document.getElementById("profileMsg").innerText = "";
+        document.getElementById("profileName").value = "";
+        document.getElementById("profileImage").value = "";
+        document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
       }
     });
   </script>
