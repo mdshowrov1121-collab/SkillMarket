@@ -113,8 +113,8 @@
         <label style="font-size:12px; font-weight:bold;">Name:</label>
         <input type="text" id="profileName" placeholder="Your Name">
         
-        <label style="font-size:12px; font-weight:bold;">Profile Picture URL:</label>
-        <input type="text" id="profileImage" placeholder="Image Link (URL)">
+        <label style="font-size:12px; font-weight:bold;">Upload Profile Picture:</label>
+        <input type="file" id="profileImageFile" accept="image/*" style="padding:5px;">
       </div>
 
       <button class="action-btn" onclick="updateProfileData()">Save Profile</button>
@@ -155,9 +155,14 @@
       getFirestore,
       doc,
       setDoc,
-      getDoc,
-      updateDoc
+      getDoc
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCiZZL6Mk-KRBCEWN-P4N_ylH-iE9AbuuM",
@@ -172,6 +177,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
     window.signup = async () => {
       const email = document.getElementById("email").value;
@@ -201,7 +207,7 @@
 
       try{
         await signInWithEmailAndPassword(auth, email, password);
-        closeLogin(); // Successfully login hole modal automatic close hoye jabe
+        closeLogin();
       }catch(err){
         document.getElementById("msg").style.color = "#ef4444";
         document.getElementById("msg").innerText = err.message;
@@ -218,10 +224,22 @@
       if (!user) return;
 
       const name = document.getElementById("profileName").value;
-      const photoUrl = document.getElementById("profileImage").value;
+      const imageFile = document.getElementById("profileImageFile").files[0];
       const pMsg = document.getElementById("profileMsg");
 
+      pMsg.style.color = "#2563eb";
+      pMsg.innerText = "Updating profile...";
+
       try {
+        let photoUrl = document.getElementById("profilePicPreview").src;
+        
+        // If user selected a new image file, upload it to Firebase Storage
+        if (imageFile) {
+          const storageRef = ref(storage, `profile_images/${user.uid}`);
+          await uploadBytes(storageRef, imageFile);
+          photoUrl = await getDownloadURL(storageRef);
+        }
+
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           name: name,
@@ -231,15 +249,12 @@
         pMsg.style.color = "#22c55e";
         pMsg.innerText = "Profile Updated Successfully!";
         
-        // Navbar name update instantly
         if(name) {
           document.getElementById("navLoginBtn").innerText = "👤 " + name;
         }
 
-        if(photoUrl) {
+        if(photoUrl && photoUrl !== "https://via.placeholder.com/80") {
           document.getElementById("profilePicPreview").src = photoUrl;
-        } else {
-          document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
         }
       } catch (err) {
         pMsg.style.color = "#ef4444";
@@ -254,14 +269,12 @@
         document.getElementById("userBox").style.display = "block";
         document.getElementById("userEmail").innerText = user.email;
 
-        // Fetch user profile data from Firestore to show name in Navbar
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
           document.getElementById("profileName").value = data.name || "";
-          document.getElementById("profileImage").value = data.photoUrl || "";
           
           if(data.name) {
             navBtn.innerText = "👤 " + data.name;
@@ -280,13 +293,12 @@
         document.getElementById("userBox").style.display = "none";
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
+        document.getElementById("profileImageFile").value = "";
         document.getElementById("msg").innerText = "";
         document.getElementById("profileMsg").innerText = "";
         document.getElementById("profileName").value = "";
-        document.getElementById("profileImage").value = "";
         document.getElementById("profilePicPreview").src = "https://via.placeholder.com/80";
         
-        // Reset navbar text back to Login
         navBtn.innerText = "Login";
       }
     });
