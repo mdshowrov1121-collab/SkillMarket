@@ -233,9 +233,9 @@
       try {
         let photoUrl = document.getElementById("profilePicPreview").src;
         
-        // If user selected a new image file, upload it to Firebase Storage
+        // Updated Storage path structure with profile.jpg file format
         if (imageFile) {
-          const storageRef = ref(storage, `profile_images/${user.uid}`);
+          const storageRef = ref(storage, `profile_images/${user.uid}/profile.jpg`);
           await uploadBytes(storageRef, imageFile);
           photoUrl = await getDownloadURL(storageRef);
         }
